@@ -116,8 +116,7 @@ namespace ISO19030
             var afterValID_shipdata = new List<ISO19030File> { };
             var afterRef_shipdata = new List<ISO19030File> { };
             List<checktemp> chCheck = new List<checktemp>();
-
-            var errorList = new List<int>();
+            
 
 
             int FILTER_TOTAL_COUNT = 0;
