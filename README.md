@@ -18,13 +18,13 @@
 * [License](#📜License )
 
 
-# 📋About 
+## 📋About 
   Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque beatae magnam iure reiciendis, corrupti ratione ipsa. Explicabo, dolore quia? Nobis ipsum quae saepe numquam possimus excepturi deserunt enim ipsa repellendus.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque beatae magnam iure reiciendis, corrupti ratione ipsa. Explicabo, dolore quia? Nobis ipsum quae saepe numquam possimus excepturi deserunt enim ipsa repellendus.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque beatae magnam iure reiciendis, corrupti ratione ipsa. Explicabo, dolore quia? Nobis ipsum quae saepe numquam possimus excepturi deserunt enim ipsa repellendus.
 
 ## 🛳️ISO19030 Process
 ![MethodProcess](./image/iso_inforgraph.png)
 
-#### ⚙️Methods
+## ⚙️Methods
 | Step | Match Method | File
 |:---|:---|:---:|
 |`Data retrieval`| DataRetrieval | MainProcess.cs
@@ -44,7 +44,7 @@
 
 
 
-# 📁Attachments
+## 📁Attachments
 
 ##### Particular 
 | Property | Means | 
@@ -116,8 +116,6 @@
 ## ☎️Contact
 >Mail : lab021@lab021.co.kr
 <br>Tel : +82 051-462-1029
-
-
 
 ## 📜License 
 This Project is licensed Apache 2.0
