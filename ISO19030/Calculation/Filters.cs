@@ -139,6 +139,7 @@ namespace ISO19030
                 var SPEED_VG_VALID = Filters.standardError(item.Select(d => d.SPEED_VG), 0.5f);
 
                 int temp_i = 0;
+
                 foreach (var item2 in item)
                 {
                     //검사 결과 체크
