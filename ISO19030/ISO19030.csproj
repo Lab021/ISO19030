@@ -54,12 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculation\Temp.cs" />
+    <Compile Include="Calculation\DataFunctions.cs" />
     <Compile Include="Calculation\Wind.cs" />
     <Compile Include="DataProcessing\CsvFileController.cs" />
     <Compile Include="Calculation\Filters.cs" />
     <Compile Include="DataProcessing\CurveFitting.cs" />
-    <Compile Include="DataProcessing\DataController.cs" />
     <Compile Include="MainProcess.cs" />
     <Compile Include="Models\Chart.cs" />
     <Compile Include="Models\CheckTemp.cs" />

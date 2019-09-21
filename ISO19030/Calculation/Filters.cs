@@ -10,41 +10,35 @@ namespace ISO19030
 {
     public class Filters
     {
-        public static void BasicFilteringContorller(List<ISO19030File> sailingData)
+        public static int FILTER_TOTAL_COUNT = 0;
+        public static int CHAUVENT_COUNT = 0;
+        public static int VALID_COUNT = 0;
+        public static int REF_CONDITION_COUNT = 0;
+        public static int count_rawShipdata = 0;
+
+        
+
+        public static List<ISO19030File> afterChauventData = new List<ISO19030File>();
+        public static List<ISO19030File> afterValID_shipdata = new List<ISO19030File>();
+        public static List<ISO19030File> afterRef_shipdata = new List<ISO19030File>();
+        public static List<checktemp> chCheck = new List<checktemp>();
+        public static List<int> errorList = new List<int>();
+
+        public static List<ISO19030File> BasicFilteringContorller(List<ISO19030File> sailingData)
         {
-            var afterChauventData = new List<ISO19030File>();
-            var afterValID_shipdata = new List<ISO19030File> { };
-            var afterRef_shipdata = new List<ISO19030File> { };
-            List<checktemp> chCheck = new List<checktemp>();
-
-            var errorList = new List<int>();
-
-
-            int FILTER_TOTAL_COUNT = 0;
-            int CHAUVENT_COUNT = 0;
-            int VALID_COUNT = 0;
-            int REF_CONDITION_COUNT = 0;
-            int count_rawShipdata = 0;
-
             foreach (var item in sailingData)
             {
                 item.ID = count_rawShipdata;
                 count_rawShipdata++;
                 item.VALID_CHAUVENT = true;
                 item.VALID_REFCONDITION = true;
-                item.VALID_VALIDATION = true;
-                //위 3개 필터
-                // 각 필터에 대해서 플래그로 T/F로 필터통과 여부 확인
+                item.VALID_VALIDATION = true;                
 
-                //날씨 값은 기본 값으로 대체한다.
+                //Environments 데이터
                 item.SW_TEMP = 31.6; //해수
                 item.AMBIENT_DENSITY = 1.15; //기온 
-
-
-
-                //상대 풍향을 절대 풍향을 바꿔준다.
-                //헬퍼 펑션안에 있는 함수를 여기에 넣어야 함
-                var windSpeed = Temp.ConvertRelWindToAbsWind(item.REL_WIND_SPEED, item.REL_WIND_DIR, item.SPEED_VG, item.SHIP_HEADING);
+                
+                var windSpeed = WindFunctions.ConvertRelWindToAbsWind(item.REL_WIND_SPEED, item.REL_WIND_DIR, item.SPEED_VG, item.SHIP_HEADING);
                 var absWind = windSpeed[0];
                 var absWindDir = windSpeed[1];
             }
@@ -120,12 +114,6 @@ namespace ISO19030
             }
             //샤보네트 필터 종료==================================
 
-
-
-
-
-
-
             //발리데이션 필터 시작
             IEnumerable<List<ISO19030File>> afterChauvent_tenMinBlock_shipdata =
             from s in afterChauventData
@@ -179,11 +167,77 @@ namespace ISO19030
                 }
             }
             //발리데이션 필터 종료
+
+            return sailingData;
         }
-
-        public static void FilteringForReferenceCondition()
+        public static List<ISO19030File> FilteringForReferenceCondition(List<ISO19030File> sailingData, SHIP_PARTICULAR shipParticular, dynamic ballastValues, dynamic scantlingValues, WindResistance windResistance)
         {
+            int index = 0;
+            foreach (var item in sailingData)
+            {
+                //if (item.VALID_CHAUVENT == true && item.VALID_VALIDATION == true && item.VALID_REFCONDITION == true)
+                //{
+                var minDraft = (item.DRAFT_FORE + item.DRAFT_AFT) / 2;
+                var deltaT = (ballastValues.DRAFT_FORE + ballastValues.DRAFT_AFT) / 2 - minDraft;
+                var A = shipParticular.TRANSVERSE_PROJECTION_AREA_BALLAST + deltaT * shipParticular.BREADTH;
+                var Za = 18.2 + deltaT;
+                windResistance.data.zref[index] = (shipParticular.TRANSVERSE_PROJECTION_AREA_BALLAST * (10 + deltaT) + 0.5 * shipParticular.BREADTH * Math.Pow(deltaT, 2)) / A;
+                windResistance.data.axv[index] = shipParticular.TRANSVERSE_PROJECTION_AREA_BALLAST + ((ballastValues.DRAFT_FORE + ballastValues.DRAFT_AFT) / 2 - minDraft) * shipParticular.BREADTH;
+                windResistance.data.za[index] = /*shipModelTestData.ZA_BALLAST*/18.2 + ((ballastValues.DRAFT_FORE + ballastValues.DRAFT_AFT) / 2 - minDraft);
+                windResistance.data.vg[index] = item.SPEED_VG * 0.5144;
+                windResistance.data.psi0[index] = Math.PI * item.SHIP_HEADING / 180;
+                windResistance.data.rhoair[index] = /*item.AMBIENT_DENSITY;*/1.225;
+                windResistance.data.vwr[index] = item.REL_WIND_SPEED;
+                windResistance.data.psiwr[index] = Math.PI * item.REL_WIND_DIR / 180;
+                index++;
+                //}
+            }
+            //바람 저항도 계산
+            windResistance.CalculateWindResistance();
 
+            index = 0;
+
+            //마지막 필터 계산
+            foreach (var item in afterValID_shipdata)
+            {
+                var windSpeedTrue = windResistance.data.vwtref[item.ID];
+
+                var speedLw = item.SPEED_LW * 0.5144f;
+                //수심의 깊이 체크
+                var waterDepth1 = 3 * Math.Sqrt(shipParticular.BREADTH * ((item.DRAFT_FORE + item.DRAFT_AFT) / 2));
+                var waterDepth2 = 2.75 * (speedLw * speedLw) / 9.80665;
+
+                if (waterDepth1 < waterDepth2)
+                {
+                    waterDepth1 = waterDepth2;
+                }
+                if (index == 22)
+                {
+                    var check = 0;
+                }
+
+
+                if (item.WATER_DEPTH < -999)
+                {
+                    item.WATER_DEPTH = 9999;
+                }
+                //수온이 너무 낮거나! 바람의 세기가 8이상 타각이 5이상인걸 날림
+                if (item.SW_TEMP < 2 || item.WATER_DEPTH <= waterDepth1 || windSpeedTrue > 7.9 || Math.Abs(item.RUDDER_ANGLE) > 5)
+                {
+                    sailingData.ElementAt((int)item.ID).VALID_REFCONDITION = false;
+                    REF_CONDITION_COUNT++;
+                    FILTER_TOTAL_COUNT++;
+                    errorList.Add(item.ID);
+                }
+                else
+                {
+                    //통과한 것만 넣음
+                    afterRef_shipdata.Add(item);
+                }
+                index++;
+            }
+
+            return sailingData;
         }
         //샤보네트 필터
         public static bool[] Chauvent(IEnumerable<double> values)       // 10분 블록 데이터 묶음을 인수로 넣음

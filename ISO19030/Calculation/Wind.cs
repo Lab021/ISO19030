@@ -7,6 +7,53 @@ using System.Threading.Tasks;
 
 namespace ISO19030.Calculation
 {
+    public class WindFunctions
+    {
+        /// <summary>
+        /// Convert Relative Wind Data to Abstract Wind Data
+        /// </summary>
+        /// <param name="relWindSpeed">상대풍속(m/s)</param>
+        /// <param name="relWindDir">상대풍향(degree)</param>
+        /// <param name="speedVg_knot">선박대지속도(knot)</param>
+        /// <param name="shipHeading">선박Heading(degree)</param>
+        /// <returns>[0] 절대풍속, [1] 절대풍향</returns>
+        public static double[] ConvertRelWindToAbsWind(double relWindSpeed, double relWindDir, double speedVg_knot, double shipHeading)         // 상대 풍향 풍속 --> 절대 풍향 풍속으로 변환하는 메소드
+        {
+            double[] absWind = new double[2];
+            double speedVg = speedVg_knot * 0.5144;         // 선박의 속도를 knot에서 m/s로 변환, 풍속은 앞쪽에서 일괄 변환하였음.
+
+            double REL_WIND_DIR_Rad = relWindDir * Math.PI / 180;
+            double shipHeading_Rad = shipHeading * Math.PI / 180;
+
+            absWind[0] = Math.Sqrt(Math.Pow(relWindSpeed, 2) + Math.Pow(speedVg, 2) - 2 * relWindSpeed * speedVg * Math.Cos(REL_WIND_DIR_Rad));       // 상대 풍속을 절대 풍속으로 변환식
+
+            if ((relWindSpeed * Math.Cos(REL_WIND_DIR_Rad + shipHeading_Rad) - speedVg * Math.Cos(shipHeading_Rad)) >= 0)         // 상대 풍향을 절대 풍향으로 변환
+            {
+                absWind[1] = (Math.Atan((relWindSpeed * Math.Sin(REL_WIND_DIR_Rad + shipHeading_Rad) - speedVg * Math.Sin(shipHeading_Rad)) / (relWindSpeed * Math.Cos(REL_WIND_DIR_Rad + shipHeading_Rad) - speedVg * Math.Cos(shipHeading_Rad))) * 180 / Math.PI);
+            }
+            else
+            {
+
+                absWind[1] = Math.Atan((relWindSpeed * Math.Sin(REL_WIND_DIR_Rad + shipHeading_Rad) - speedVg * Math.Sin(shipHeading_Rad)) / (relWindSpeed * Math.Cos(REL_WIND_DIR_Rad + shipHeading_Rad) - speedVg * Math.Cos(shipHeading_Rad))) * 180 / Math.PI + 180;
+            }
+
+            if (double.IsNaN(absWind[0]))
+            {
+                absWind[0] = 0;
+            }
+
+            if (double.IsNaN(absWind[1]))
+            {
+                absWind[1] = 0;
+            }
+
+            if (absWind[1] < 0)
+            {
+                absWind[1] = absWind[1] + 360;
+            }
+            return absWind;
+        }
+    }
     public class WindResistance
     {
         public WindResistanceData data;
@@ -14,6 +61,8 @@ namespace ISO19030.Calculation
         public WindResistance()
         {
         }
+
+
 
         private void Averaging()
         {
@@ -359,6 +408,34 @@ namespace ISO19030.Calculation
             }
             data.caa0 = data.windTunnel.GetValue(0, 1);
         }
+
+
+        /// <summary>
+        /// Create Wind Resistance Data
+        /// </summary>      
+        /// <param name="shipParticular">Ship Basic Data</param>
+        /// <param name="dataCount">Count of Sailing Data</param>
+        /// <returns></returns>
+        public static WindResistance CreateWindResistance(SHIP_PARTICULAR shipParticular, int dataCount)
+        {
+            var windResistance = new WindResistance(); //해당 클래스 부르고
+
+            windResistance.data = new WindResistanceData(); // 데이터 입력
+            windResistance.data.SetSize(dataCount);
+            windResistance.data.isAveraging = false;
+            windResistance.data.loa = shipParticular.LOA;
+            windResistance.data.lbp = shipParticular.LOA;
+            windResistance.data.breadth = shipParticular.BREADTH;
+            windResistance.data.windChartType = Models.Enum.WindChartTypes.ITTC; //0 = fujiwara, 1 = ITTC, 2 = WindTunnel
+            windResistance.data.iTTCChartType = Models.Enum.ITTCChartTypes.TankerConventionalLaden; // 0 = ContainerLadenContainer, 1 = ContainerLadenLashing, 2 = ContainerBallastLashing, 3 = ContainerBallast, 4 = TankerConventionalLaden, 5 = TankerConventionalBallast, 6 = TankerCylindericalBallast, 7 = CarCarrierAverage, 8 = LNGSpherical, 9 = LNGPrismaticExtended, 10 = LNGPrismaticIntegrated, 11 = GeneralCargoAverage, 12 = CruiseFerryAverage
+
+            return windResistance;
+        }
+
+
+        
+
+
     }
 
     public class Error : Exception

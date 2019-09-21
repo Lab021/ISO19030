@@ -1,20 +1,65 @@
-﻿using ISO19030.Models;
+﻿using ISO19030.DataProcessing;
+using ISO19030.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ISO19030.DataProcessing
+namespace ISO19030.Calculation
 {
-    public class DataController
-    {
+    public class DataFunctions
+    {        
+        public static double PVcalculator(double[] speedPowerTable, double CORRECTPOW, double SPEED_LW)
+        {
+            double PV = 0;
+
+            if (CORRECTPOW <= 0 | SPEED_LW <= 0)
+            {
+                return -9999;
+            }
+
+            var expectedSpeed = speedPowerTable[1] * Math.Pow(CORRECTPOW, speedPowerTable[2]);
+
+            PV = 100 * (SPEED_LW - expectedSpeed) / expectedSpeed;
+
+            if (double.IsNaN(PV) || double.IsNegativeInfinity(PV) || double.IsPositiveInfinity(PV))
+            {
+                PV = -9999;
+            }
+
+            return PV;
+        }
+
+        public static double PPVcalculator(double[] speedPowerTable, double CORRECTPOW, double SPEED_LW)
+        {
+
+            if (CORRECTPOW <= 0 | SPEED_LW < 0)
+            {
+                return -9999;
+            }
+
+            var powerToSpeedCoef1 = Math.Pow(1 / speedPowerTable[1], 1 / speedPowerTable[2]);
+            var powerToSpeedCoef2 = 1 / speedPowerTable[2];
+
+            var expectedPower = powerToSpeedCoef1 * Math.Pow(SPEED_LW, powerToSpeedCoef2);
+
+            var PPV = 100 * (CORRECTPOW - expectedPower) / expectedPower;
+
+            if (double.IsNaN(PPV) || double.IsNegativeInfinity(PPV) || double.IsPositiveInfinity(PPV))
+            {
+                PPV = -9999;
+            }
+
+            return PPV;
+        }
+
         /// <summary>
-        /// 시운전 그래프를 기준으로 ballast와 scanlt 사이의 각 draft 별 power, speed 계수를 구함.
+        /// Based on the commissioning graph, the power and speed coefficients of each draft between the ballast and the scanlt are obtained.
         /// </summary>
-        /// <param name="shipParticular">선박제원정보</param>
-        /// <param name="seaTrialPowerToSpeedAtBallast">Power Speed 변환계수(ballast)</param>
-        /// <param name="seaTrialPowerToSpeedAtScant">Power Speed 변환계수(scant)</param>
+        /// <param name="shipParticular">Ship Basic Data</param>
+        /// <param name="seaTrialPowerToSpeedAtBallast">Power Speed Conversion factor(ballast)</param>
+        /// <param name="seaTrialPowerToSpeedAtScant">Power Speed Conversion factor(scant)</param>
         /// <returns>각 10cm 별 power speed 계수 배열</returns>
         public static List<double[]> PowerToSpeedTable(SHIP_PARTICULAR shipParticular, dynamic ballastValues, dynamic scantlingValues)
         {
