@@ -19,8 +19,8 @@
 
 
 ## 📋About 
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque beatae magnam iure reiciendis, corrupti ratione ipsa. Explicabo, dolore quia? Nobis ipsum quae saepe numquam possimus excepturi deserunt enim ipsa repellendus.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque beatae magnam iure reiciendis, corrupti ratione ipsa. Explicabo, dolore quia? Nobis ipsum quae saepe numquam possimus excepturi deserunt enim ipsa repellendus.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque beatae magnam iure reiciendis, corrupti ratione ipsa. Explicabo, dolore quia? Nobis ipsum quae saepe numquam possimus excepturi deserunt enim ipsa repellendus.
-
+  선체와 프로펠러 성능은 선박의 선체와 프로펠러의 상태와 선박을 일정 속도로 이동시키는 데 필요한 힘 사이의 관계를 나타냅니다. 시간에 따른 선박 별 선체 및 프로펠러 성능의 변화를 측정하면 선체 및 프로펠러 유지 보수, 수리 및 개조 활동이 해당 선박의 전체 에너지 효율에 미치는 영향을 나타낼 수 있습니다.
+  
 ## 🛳️ISO19030 Process
 ![MethodProcess](./image/iso_inforgraph.png)
 
@@ -49,47 +49,46 @@
 ##### Particular 
 | Property | Means | 
 |---|:---:|
-`BREADTH` | Lorem ipsum dolor sit amet consectetur adipisicing elit.
-`LOA` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`ME_POWER_MCR` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`TRANSVERSE_PROJECTION_AREA_BALLAST` | Lorem ipsum dolor sit amet consectetur adipisicing elit.
+`BREADTH` | 선박의 폭
+`LOA` | 선박의 전체 길이(Length of all) 
+`ME_POWER_MCR` | MRC(Maximum Continuous Rating)에서 ME 출력
+`TRANSVERSE_PROJECTION_AREA_BALLAST` | BALLAST 상태의 선박의 수선위 단면
 
 ##### Draft
 
 | Property | Means |
 |---|:---:|
-`BALLAST_DRAFT_FORE` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`BALLAST_DRAFT_AFT` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`SCANTLING_DRAFT_FORE` | Lorem ipsum dolor sit amet consectetur adipisicing eli
-`SCANTLING_DRAFT_AFT` | Lorem ipsum dolor sit amet consectetur adipisicing eli
+`BALLAST_DRAFT_FORE` | BALLAST 상태의 선수 흘수
+`BALLAST_DRAFT_AFT` | BALLAST 상태의 선미 흘수 
+`SCANTLING_DRAFT_FORE` | SCANTLING 상태의 선수 흘수
+`SCANTLING_DRAFT_AFT` | SCANTLING 상태의 선미 흘수
 
 
 ##### Speed Power
 | Property | Means | 
 |---|:---:|
-`BALLAST_DRAFT_FORE` |  Lorem ipsum dolor sit amet consectetur adipisicing elit.  
-`BALLAST_DRAFT_AFT` |  Lorem ipsum dolor sit amet consectetur adipisicing elit.  
-`SCANTLING_DRAFT_FORE` |  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-`SCANTLING_DRAFT_AFT` |  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-
+`BALLAST_DRAFT_FORE` |  BALLAST 상태의 선수 흘수 
+`BALLAST_DRAFT_AFT` |  BALLAST 상태의 선미 흘수 
+`SCANTLING_DRAFT_FORE` |  SCANTLING 상태의 선수 흘수
+`SCANTLING_DRAFT_AFT` |  SCANTLING 상태의 선미 흘수
 
 ##### Voyage Data
 | Property | Means
 |---|:---:|
-`ID` | Lorem ipsum dolor sit amet consectetur adipisicing elit
-`TIME_STAMP` | Lorem ipsum dolor sit amet consectetur adipisicing elit.
-`SPEED_VG` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`SPEED_LW` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`REL_WIND_DIR` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`REL_WIND_SPEED` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`SHIP_HEADING` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`WATER_DEPTH` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`RUDDER_ANGLE` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`SW_TEMP` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`DRAFT_FORE` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`DRAFT_AFT` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`ME1_RPM_SHAFT` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-`ME1_SHAFT_POWER` | Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+`ID` | 선박의 고유식별번호(ex callsign)
+`TIME_STAMP` | 해당 데이터 수집 시점(UTC)
+`SPEED_VG` | 대지속도 
+`SPEED_LW` | 대수속도 
+`REL_WIND_DIR` | 상대풍향 
+`REL_WIND_SPEED` | 상대풍속 
+`SHIP_HEADING` | 선수각도 
+`WATER_DEPTH` | 수심 
+`RUDDER_ANGLE` | 타각 
+`SW_TEMP` | 해수온도 
+`DRAFT_FORE` | 선수흘수 
+`DRAFT_AFT` | 선미흘수 
+`ME1_RPM_SHAFT` | ME RPM 
+`ME1_SHAFT_POWER` | ME POWER 
 
 
 
