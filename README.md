@@ -19,7 +19,7 @@
 
 
 ## 📋About 
-  선체와 프로펠러 성능은 선박의 선체와 프로펠러의 상태와 선박을 일정 속도로 이동시키는 데 필요한 힘 사이의 관계를 나타냅니다. 시간에 따른 선박 별 선체 및 프로펠러 성능의 변화를 측정하면 선체 및 프로펠러 유지 보수, 수리 및 개조 활동이 해당 선박의 전체 에너지 효율에 미치는 영향을 나타낼 수 있습니다.
+   Hull and propeller performance refers to the relationship between the condition of a ship’s underwater hull and propeller and the power required to move the ship through water at a given speed. Measurement of changes in ship specific hull and propeller performance over time makes it possible to indicate the impact of hull and propeller maintenance, repair and retrofit activities on the overall energy efficiency of the ship in question.
   
 ## 🛳️ISO19030 Process
 ![MethodProcess](./image/iso_inforgraph.png)
@@ -49,46 +49,45 @@
 ##### Particular 
 | Property | Means | 
 |---|:---:|
-`BREADTH` | 선박의 폭
-`LOA` | 선박의 전체 길이(Length of all) 
-`ME_POWER_MCR` | MRC(Maximum Continuous Rating)에서 ME 출력
-`TRANSVERSE_PROJECTION_AREA_BALLAST` | BALLAST 상태의 선박의 수선위 단면
+`BREADTH` | Breadth of ship
+`LOA` | Length Of All : length from the tip of the bow to stern
+`ME_POWER_MCR` | Power of ME at Maximum Continuous Rating
+`TRANSVERSE_PROJECTION_AREA_BALLAST` | Transverse projected area above waterline including superstructures at ballast condition during model test
 
 ##### Draft
 
 | Property | Means |
 |---|:---:|
-`BALLAST_DRAFT_FORE` | BALLAST 상태의 선수 흘수
-`BALLAST_DRAFT_AFT` | BALLAST 상태의 선미 흘수 
-`SCANTLING_DRAFT_FORE` | SCANTLING 상태의 선수 흘수
-`SCANTLING_DRAFT_AFT` | SCANTLING 상태의 선미 흘수
-
+`BALLAST_DRAFT_FORE` | DRAFT(FORE SIDE) value at ballast condition during sea trial
+`BALLAST_DRAFT_AFT` | DRAFT(AFT SIDE) value at ballast condition during sea trial 
+`SCANTLING_DRAFT_FORE` | DRAFT(FORE SIDE) value at scantling condition during sea trial
+`SCANTLING_DRAFT_AFT` | DRAFT(AFT SIDE) value at scantling condition during sea trial
 
 ##### Speed Power
 | Property | Means | 
 |---|:---:|
-`BALLAST_DRAFT_FORE` |  BALLAST 상태의 선수 흘수 
-`BALLAST_DRAFT_AFT` |  BALLAST 상태의 선미 흘수 
-`SCANTLING_DRAFT_FORE` |  SCANTLING 상태의 선수 흘수
-`SCANTLING_DRAFT_AFT` |  SCANTLING 상태의 선미 흘수
+`BALLAST_DRAFT_FORE` |  DRAFT(FORE SIDE) value at ballast condition during sea trial
+`BALLAST_DRAFT_AFT` |  DRAFT(AFT SIDE) value at ballast condition during sea trial 
+`SCANTLING_DRAFT_FORE` |  DRAFT(FORE SIDE) value at scantling condition during sea trial
+`SCANTLING_DRAFT_AFT` |  DRAFT(AFT SIDE) value at scantling condition during sea trial
 
 ##### Voyage Data
 | Property | Means
 |---|:---:|
-`ID` | 선박의 고유식별번호(ex callsign)
-`TIME_STAMP` | 해당 데이터 수집 시점(UTC)
-`SPEED_VG` | 대지속도 
-`SPEED_LW` | 대수속도 
-`REL_WIND_DIR` | 상대풍향 
-`REL_WIND_SPEED` | 상대풍속 
-`SHIP_HEADING` | 선수각도 
-`WATER_DEPTH` | 수심 
-`RUDDER_ANGLE` | 타각 
-`SW_TEMP` | 해수온도 
-`DRAFT_FORE` | 선수흘수 
-`DRAFT_AFT` | 선미흘수 
+`ID` | Ship's ID(ex callsign)
+`TIME_STAMP` | Time(UTC)
+`SPEED_VG` | Ground speed
+`SPEED_LW` | Water speed 
+`REL_WIND_DIR` | Relative wind direction 
+`REL_WIND_SPEED` | Relative wind speed 
+`SHIP_HEADING` | ship's heading 
+`WATER_DEPTH` | water depth 
+`RUDDER_ANGLE` | Rudder angle 
+`SW_TEMP` | Sea water temperature 
+`DRAFT_FORE` | Draft at Fore 
+`DRAFT_AFT` | Draft at Aft 
 `ME1_RPM_SHAFT` | ME RPM 
-`ME1_SHAFT_POWER` | ME POWER 
+`ME1_SHAFT_POWER` | ME Power 
 
 
 
